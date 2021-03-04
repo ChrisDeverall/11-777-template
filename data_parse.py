@@ -261,9 +261,10 @@ def get_frequency(name_list, normalize=True):
     output: (0.5, 0.25, 0.25), [t1, t2, t3]
     '''
     count_dict = collections.Counter(name_list)
-    frequency_vector = np.array(list(count_dict.values()))
+    keys = count_dict.keys()
+    frequency_vector = np.array([count_dict[key] for key in keys])
     frequency_vector = frequency_vector/(np.sum(frequency_vector, keepdims=True)+1e-7)
-    return frequency_vector, list(count_dict.keys())
+    return frequency_vector, keys
 
 def main():
     '''
