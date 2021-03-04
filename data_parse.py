@@ -96,7 +96,7 @@ def get_low_level_actions(traj_dict, non_repeat=True):
 
 def get_high_level_actions(traj_dict):
     '''
-    load an low_level action sequence from the dict given by json file
+    load an high_level action sequence from the dict given by json file
     return [a1, a2, a3, a4]
     
     '''
@@ -243,6 +243,8 @@ def get_pair_frequency(pair_list, normalize = True):
 
     all_keys = list(set([pair[0] for pair in pair_list]))
     all_values = list(set([pair[1] for pair in pair_list]))
+    all_keys.sort()
+    all_values.sort()
     freq_matrix = np.zeros([len(all_keys), len(all_values)])
     count_dict = collections.Counter(pair_list)
     def fill_matrix(indexs):
@@ -262,6 +264,7 @@ def get_frequency(name_list, normalize=True):
     '''
     count_dict = collections.Counter(name_list)
     keys = count_dict.keys()
+    keys.sort()
     frequency_vector = np.array([count_dict[key] for key in keys])
     frequency_vector = frequency_vector/(np.sum(frequency_vector, keepdims=True)+1e-7)
     return frequency_vector, keys
