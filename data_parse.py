@@ -204,7 +204,7 @@ def get_action_action_pairs(traj_dict, low_level=True, unique=True):
 
 def get_task_action_pairs(traj_dict, low_level=True, unique=True):
     '''
-    convert a dict read from json to task-acton pairs
+    convert a dict read from json to task_type-acton pairs
     return [(t1, a2), (t1, a3), (t2, a1)]
     '''
     task_type = get_task_type(traj_dict)
@@ -216,8 +216,8 @@ def get_task_action_pairs(traj_dict, low_level=True, unique=True):
 
 def get_attempts_action_pairs(traj_dict, low_level=True, unique=True):
     '''
-    convert a dict read from json to attempt-acton pairs
-    return [(t1, a2), (t1, a3), (t2, a1)]
+    convert a dict read from json to attempt_id-acton pairs
+    return [(t1, a2), (t2, a3), (t3, a1)]
     '''
     trial_id = traj_dict['task_id']
     if low_level:
