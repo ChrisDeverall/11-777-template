@@ -1,4 +1,6 @@
 *.aux
 *.log
 *.out
+.ipynb_checkpoints/
+
 Data/json_2.1.0/
