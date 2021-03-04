@@ -66,7 +66,7 @@ get basic information from the dict
 def get_low_level_actions(traj_dict, non_repeat=True):
     '''
     load an low_level action sequence from the dict given by json file
-    return [list_of_actions], [whether_object_involved], [repeat numbers]
+    return [list_of_actions], [whether_object_involved], [repetition numbers]
     
     by setting remove repeat to true, 
     we consider the single action performed continuously to be a one action, e.g.
@@ -214,7 +214,7 @@ def get_task_action_pairs(traj_dict, low_level=True, unique=True):
         action_lists = get_high_level_actions(traj_dict)
     return [(task_type, action) for action in action_lists]
 
-def get_attempts_action_pairs(traj_dict, low_level=True, unique=True):
+def get_attempt_action_pairs(traj_dict, low_level=True, unique=True):
     '''
     convert a dict read from json to attempt_id-acton pairs
     return [(t1, a2), (t2, a3), (t3, a1)]
@@ -266,7 +266,8 @@ def get_frequency(name_list, normalize=True):
     keys = count_dict.keys()
     keys.sort()
     frequency_vector = np.array([count_dict[key] for key in keys])
-    frequency_vector = frequency_vector/(np.sum(frequency_vector, keepdims=True)+1e-7)
+    if normalize:
+        frequency_vector = frequency_vector/(np.sum(frequency_vector, keepdims=True)+1e-7)
     return frequency_vector, keys
 
 def main():
