@@ -18,7 +18,8 @@
 
 \newcommand\BibTeX{B\textsc{ib}\TeX}
 
-\title{11-777 Spring 2021 Class Project}
+\title{11-777 Spring 2021 Class Project\\
+ALFRED Dataset Analysis}
 
 \author{
   Christian Deverall\thanks{\hspace{4pt}Everyone Contributed Equally -- Alphabetical order} \hspace{2em} Jingyuan Li $^*$ \hspace{2em} Artidoro Pagnoni $^*$ \\
@@ -31,11 +32,11 @@
 \maketitle
 
 \section{Introduction and Problem Definition}
-Understanding and following task-oriented instructions are natural and straightforward skills for human races, while this remains to be a great challenge for robotic systems, due to the difficulties in both visual and linguistic understanding. In this project, we are interested in allowing the robots to understand the instructions and take actions based on the instructions, like what the human race would do. As a result, the ALFRED dataset \cite{ALFRED20} was chosen for this project.
+Understanding and following task-oriented instructions are natural and straightforward skills for human beings. This remains to be a great challenge for robotic systems due to the difficulties in both visual and linguistic understanding. In this project, we are interested in allowing the robots to understand the instructions and take actions based on the instructions in a manner similar to the humans. As a result, the ALFRED dataset \cite{ALFRED20} was chosen for this project.
 
-The high-level task for the ALFRED dataset is to predict the correct sequence of household actions given textual instructions and visual feedback. The ALFRED dataset is unique in that the actions are long, compositional, and non-reversible. An example of this is that the agent must pick up a knife in order to slice a potato. Moreover, once a potato is sliced, it cannot be put back together. Actions consist of navigation within a room or interaction with an object. For interaction, a pixelwise mask must be predicted whereby the object with the highest intersection-over-union score with the interaction mask is acted upon. The textual instructions come in the form of both high-level task descriptions and step by step commands. The visual feedback is ego-centric and the next image is provided after each action is performed. Compared to previous datasets, there is a diverse range of tasks. Specifically there are 7 high-level task types parameterized by a combination of 84 object classes and 120 household scenes.
+The high-level task for the ALFRED dataset is to predict the correct sequence of household actions given textual instructions and visual feedback. The ALFRED dataset is unique in that the actions are long, compositional, and non-reversible. An example of this is that the agent must pick up a knife in order to slice a potato. Moreover, once a potato is sliced, it cannot be put back together. Actions consist of navigation within a room or interaction with an object. For interaction, a pixelwise mask must be predicted whereby the object with the highest intersection-over-union score with the interaction mask is acted upon. The textual instructions come in the form of both high-level task descriptions and step by step commands. The visual feedback is ego-centric and the next image is provided after each action is performed. Compared to previous datasets, the ALFRED dataset contains a diverse range of tasks. Specifically there are 7 high-level task types parameterized by a combination of 84 object classes and 120 household scenes.
 
-In this project, the focus will be on the navigation and interaction of the agent in the simulator. The Input space would be a set of instructions (represented in natural language) and an image (represented in ResNet-18 \cite{He_2016_CVPR} features) reflecting the current environment perceived by the agent. The output space is the prediction of the next action that helps the agent achieve the ultimate goal. The predicted actions can be described in three dimensions, including 1) a classification outcome indicating the type of action, 2) the magnitude of action when the action is for navigation, and 3) an object mask indicating the location of an object acted on when the objects are involved in the action. The input image is updated for the next prediction after an action is performed. To evaluate the success of the prediction sequence, the number of desired state changes in the target object completed by the agent is measured.
+In this project, the focus will be on the navigation and interaction of the agent in the simulator. The input space would be a set of instructions (represented in natural language) and an image (represented in ResNet-18 \cite{He_2016_CVPR} features) reflecting the current environment perceived by the agent. The output space is the prediction of the next action that helps the agent achieve the ultimate goal. The predicted actions can be described in three dimensions, including 1) a classification outcome indicating the type of action, 2) the magnitude of action when the action is for navigation, and 3) an object mask indicating the bounding box of an object acted upon when the object is involved in the action. The input image is updated for the next prediction after an action is performed. To evaluate the success of the prediction sequence, the number of desired state changes in the target object completed by the agent is measured.
 
 \begin{table}[]
     \centering
@@ -58,11 +59,12 @@ In this project, the focus will be on the navigation and interaction of the agen
 \end{table}
 
 \section{Data Analysis}
-We present an analysis of the data. Our objective is to get a sense of the types of examples that are present in the dataset. The sizes of the seen validation set, unseen validation set and training set are 251, 255 and 6574 respectively.
+We present an analysis of the data. Our objective is to get a sense of the types of demonstrations that are present in the dataset. The sizes of the seen validation set, unseen validation set and training set are 251, 255 and 6574 respectively.
 
 \subsection{Action Space Analysis}
 
-In the ALFRED dataset, tasks are described by low-level and high-level actions. In this section, we examine the patterns behind these actions and the objects which are acted upon. In order to gauge the size of tasks and the granularity of actions, we provide statistics about the number of low-level and high-level actions per task in \autoref{tab:number_actions}.
+In the ALFRED dataset, tasks are described by low-level and high-level actions. In this section, we examine the patterns behind these actions and the objects which are acted upon. In order to gauge the size of tasks and the granularity of actions, we provide statistics about the number of low-level and high-level actions per task in
+\autoref{tab:number_actions}.
 
 Low-level actions are often repeated in order to fully complete a high-level goal. For example, numerous fixed-distance movement actions are required to travel from one end of the kitchen to the other. This repetition pattern is relevant to action prediction because for highly repeated actions, it is likely that the next action is the exact same as the current one. In \autoref{fig:duplicate_dist}, it can be seen that by far the most duplicated action is the "MoveAhead" operation encompassing approximately 44\% of all actions.
 
@@ -73,7 +75,7 @@ Low-level actions are often repeated in order to fully complete a high-level goa
     \label{fig:duplicate_dist}
 \end{figure}
 
-To further understand the sequential order of actions, we display the distribution of next actions given current actions in \autoref{fig:heatmap_act}. Only data from the training split is shown here. Current actions are shown on the left axis while next actions are shown on the bottom axis. The top three most common sequences of actions are "MoveAhead" then "MoveAhead", "RotateLeft" then "MoveAhead" and "RotateRight" then "MoveAhead".
+To further understand the sequential order of actions, we display the distribution of next actions given current actions in \autoref{fig:heatmap_act}. Only data from the training split is shown here. Current actions are shown on the left axis while next actions are shown on the bottom axis. The top three most common sequences of actions are ``MoveAhead'' then ``MoveAhead'', ``RotateLeft'' then ``MoveAhead'' and ``RotateRight'' then ``MoveAhead''.
 \begin{figure*}
     \centering
     \includegraphics[width=\linewidth]{Reports/1-Task-Definition-and-Data/heatmap_actions.png}
@@ -81,7 +83,7 @@ To further understand the sequential order of actions, we display the distributi
     \label{fig:heatmap_act}
 \end{figure*}
 
-Objects are utilized in two manners. They are acted upon or they are decorative in that they exist in the room but are not used. To get a sense of the distribution of the acted upon objects, we plot the top 20 most used objects in \autoref{fig:used_obj}. The microwave and fridge are used far more frequently than other objects. This is most likely because they are highly common household items that essential for "OpenObject" and "CloseObject" actions. The distribution of all objects regardless of whether they are used or not is shown in \autoref{fig:all_obj}.
+Objects are utilized in two manners. They are acted upon or they are decorative in that they exist in the room but are not used. To get a sense of the distribution of the acted upon objects, we plot the top 20 most used objects in \autoref{fig:used_obj}. The microwave and fridge are used far more frequently than other objects. This is most likely because they are highly common household items that essential for ``OpenObject'' and ``CloseObject'' actions. The distribution of the top 20 most common objects regardless of whether they are used or not is shown in \autoref{fig:all_obj}.
 
 \begin{figure}
     \centering
@@ -106,8 +108,11 @@ Certain objects are more frequently used for certain actions. Intuitively, a pot
     \label{fig:act_obj}
 \end{figure*}
 
+To summarize our action-space analysis, we have provided statistical insights into the number of high-level and low-level actions for each task in the three pre-test splits of our data. We showed that the probability distribution of the next action greatly depends on the current action being performed. Finally, we displayed the probability distribution of used items and showed that each one has varying levels of association with each action.
+
+
 \subsection{Instructions Analysis}
-There are two types of instructions: the task description and the detailed instructions. The task description is generally a single sentence outlining the goal of the task while the detailed instructions break the task down in sub-goals and provide a sentence instruction for each sub-goal. We measure statistics on the number of sub-goal for each task in \autoref{tab:sub_goals}. We observe that there are up to 19 different sub-goals in each trajectory and that on average there are 6.7. The tasks are not simple as they require a minimum of three sub-goals.
+There are two types of instructions: the task description and the detailed instructions. The task description is generally a single sentence outlining the goal of the task while the detailed instructions break the task down into sub-goals and provide a sentence instruction for each sub-goal. We measure statistics on the number of sub-goals for each task in \autoref{tab:sub_goals}. We observe that there are up to 19 distinct sub-goals in each trajectory and that on average there are 6.7 sub-goals. The tasks are not simple as they require a minimum of three sub-goals.
 
 \begin{table}[]
     \centering
@@ -142,7 +147,7 @@ There are different sets of each instruction for each trajectory. We examine the
     \label{tab:instruction_sets}
 \end{table}
 
-When inspecting the instructions we notice that verbs indicate actions, while nouns indicate objects. We measure statistics on the number of verbs and nouns in both types of instructions. In both cases, we use the lemma of the noun and verb. We report the results in \autoref{tab:verbs_nouns_stats}. The number of verbs used can go as high as 68 verbs for one set of detailed instructions. On average the number of verbs is around 13 in the detailed instructions and slightly over one in the task instructions. 
+When inspecting the instructions we notice that verbs indicate actions, while nouns indicate objects. We measure statistics on the number of verbs and nouns in both types of instructions. In both cases, we use the lemma of the noun and verb. We report the results in \autoref{tab:verbs_nouns_stats}. The number of verbs used can reach as high as 68 verbs  for one set of detailed instructions. On average the number of verbs is around 13 in the detailed instructions and slightly over one in the task instructions. 
 
 Besides the actual values, we observe that the ratio of nouns to verbs is higher in the task instructions. This indicates that in the task instructions there are more complements used to specify the actions described by the verbs. By manual analysis, the task instructions have specifications on the location where an action should be completed. This is information that comes in addition to the object that needs to be acted on and makes the sentence structure more complex. 
 
@@ -202,6 +207,8 @@ We also look at the actions that generally follow each other. To this end we bui
 
 \section{Conclusion}
 In this report, we analyze the ALFRED \cite{ALFRED20} dataset. We explore both the actions and the instructions in the training and validation data splits.
+We observed a highly imbalanced distribution of actions, and of action pairs, which indicates potential biases in the dataset. Strong symmetry is observed in the interactive actions that change the states of object, meaning potential rule-of-thumb that could be exploited in designing our own method.
+With respect to the instructions, we observe that almost all objects and verbs are common to the training and validation data splits. Furthermore, we see that there are long tailed distributions of nouns and verbs. Finally, the high-level task description includes more mentions of objects to specify the actions beyond the objects acted on.
 
 
 \clearpage
