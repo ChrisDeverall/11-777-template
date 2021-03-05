@@ -2,5 +2,6 @@
 *.log
 *.out
 .ipynb_checkpoints/
+.vscode/
 
 Data/json_2.1.0/
