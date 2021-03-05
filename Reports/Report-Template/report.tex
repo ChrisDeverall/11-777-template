@@ -47,10 +47,31 @@ Template for 11-777 Reports using the ACL 2021 Style File
 \paragraph{Literature 4}
 
 \clearpage
-\section{Task Setup and Data (1 page)}
+\section{Task Definitions and Data Analysis (1 page)}
 \subsection{Task formulation}
-\subsection{Dataset Statistics}
-\subsection{Metrics}
+
+The high-level task for the ALFRED dataset is to predict the correct sequence of household actions given textual instructions and visual feedback. The ALFRED dataset is unique in that the actions are long, compositional and non-reversible. An example of this is that the agent must pick up a knife in order to slice a potato. Moreover, once a potato is sliced, it cannot be put back together. Actions consist of navigation within a room or interaction with an object. For interaction, a pixelwise mask must be predicted whereby the object with the highest intersection-over-union score with the interaction mask is acted upon. The textual instructions come in the form of both high-level task descriptions and step by step commands. The visual feedback is ego-centric and the next image is provided after each action is performed. Compared to previous datasets, there is a diverse range of tasks. Specifically there are 7 high-level task types parameterized by a combination of 84 object classes and 120 household scenes.
+
+\subsection{Data Analysis}
+
+\subsubsection{Action Space}
+
+As can be seen in the table below, each task is composed by a large number of low level actions with the largest tasks consisting of 16 actions. THIS IS FOR THE VAL SEEN SET 
+
+\begin{tabular}{lr}
+\toprule
+{} &  Count of Actions per task \\
+\midrule
+mean &          6.47 \\
+std  &          2.62 \\
+max  &         16.00 \\
+min  &          3.00 \\
+\bottomrule
+\end{tabular}
+
+
+\subsubsection{Hello}
+
 
 \clearpage
 \section{Models (2 pages)}
