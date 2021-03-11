@@ -1,0 +1,4 @@
+Jingyuan wrote the code to process the json, which included lots utility functions to extract actions, action pairs, frequencies, instructions etc. 
+Christian did the action space analysis using those functions (including the visualizations). 
+Artidoro worked on the language instructions, including some utility functions, analysis and visualizations. 
+We all worked on the report. 
