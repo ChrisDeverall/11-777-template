@@ -1,0 +1,85 @@
+% File project.tex
+%% Style files for ACL 2021
+\documentclass[11pt,a4paper]{article}
+\usepackage[hyperref]{acl2021}
+\usepackage{times}
+\usepackage{booktabs}
+\usepackage{todonotes}
+\usepackage{latexsym}
+\renewcommand{\UrlFont}{\ttfamily\small}
+\usepackage{multirow}
+
+% This is not strictly necessary, and may be commented out,
+% but it will improve the layout of the manuscript,
+% and will typically save some space.
+\usepackage{microtype}
+
+\aclfinalcopy 
+
+\newcommand\BibTeX{B\textsc{ib}\TeX}
+
+\title{11-777 Spring 2021 Class Project\\
+ALFRED Background and Related Works}
+
+\author{
+  Christian Deverall\thanks{\hspace{4pt}Everyone Contributed Equally -- Alphabetical order} \hspace{2em} Jingyuan Li $^*$ \hspace{2em} Artidoro Pagnoni $^*$ \\
+  \texttt{\{cdeveral, jingyua4, apagnoni\}@andrew.cmu.edu}
+  }
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Baselines}
+We present below the two baselines that we plan to evaluate against our proposed approach along with the metrics that will be used for the evaluation.
+
+\paragraph{Sequence-to-Sequence with Progress Monitor}
+Along with collecting the ALFRED dataset, \citet{ALFRED20} proposed a baseline model for the task. They model the agent with a CNN-LSTM sequence-to-sequence architecture. A bidirectional-LSTM is used to generate a representation of the language instructions. A CNN encodes the visual input at each time step. And a decoder LSTM generates a sequence of low-level actions while attending over the encoded language and visual input. The model is trained to produce the actions and associated interaction masks from expert trajectories using imitation learning. The interaction mask is produced by a three layer deconvolution network trained with binary cross-entropy loss on ground-truth object segmentations.
+
+The ALFRED task requires long action sequences to be completed. \citet{ALFRED20} propose to use two auxiliary losses to monitor the progress of the agent towards the completion of the task. The first loss involves predicting the current process (a scalar between 0 and 1) using the decoder hidden state, the visual input, the attended language instructions, and the previous action. In addition to the global progress, the model is trained to predict the number of sub-goals completed so far. 
+
+\paragraph{Modular Object-Centric Approach (MOCA)} The Modular Object-Centric Approach (MOCA) \citep{singh2020moca} decomposes the interactive instruction following procedure into action, and policy generation tasks. Two modualized network, named action policy module (APM) and visual perception module (VPM), deal with the action planning and visual localization tasks respectively via attentive filtering visual and language information. The method also proposed to use a obstruction detection module to address the difficulties in being stuck around obstacle. The method successfully gains improvements from previous methods, and is of state-of-the-art position.
+
+
+
+\section{Metrics}
+
+\paragraph{Task Success} To evaluate whether tasks have been successfully completed, the authors define two categories for success. For the task success metric, a score of 1 is given to a tasks trial when all of the goal conditions for that task have been met. If at least one goal condition is not met at the end of the sequence, a score of 0 is given. The main limitation of this metric is that the state-of-the-art models still perform poorly on the dataset, thus the percentage of tasks that meet every goal condition is very low.
+
+\paragraph{Goal-Condition Success} To overcome this limitation, goal-condition success measures the proportion of goal-conditions that have been met for the task. For example, if the completion of a task requires 5 goal-conditions and only 2 are met during testing, a score of 0.4 will be given. In general, tasks with longer sequences of instructions have a lower goal-condition success as the directive is more complex. As a result, it is important to use the same test splits across experiments to keep the task length constant.
+
+\paragraph{Path Weighted Metrics} A major limitation of both metrics is that one could attain a relatively high score by performing a long sequence of random acts. To overcome this, the authors perform path weighting, which gives a lower score to action sequences that are long compared to the expert demonstration. The weighting follows the below equation where $p_s$ is the path weighted score, $s$ is the non-path weighted score, $L^*$ is the length of the expert demonstration sequence and $\hat{L}$ is the length of the predicted sequence.
+
+$$p_s = s * \frac{L^{*}}{max(L^{*}, \hat{L} )}$$
+
+\paragraph{Sub-Goal Evaluation} The last metric is sub-goal evaluation. Initially, the model is forced to follow the beginning part of the expert demonstration. Afterwards, the model must predict actions to complete the remaining sub-goals given the full textual instruction and the most recent image input. This metric allows analysis into how previous action sequences affect the prediction of future action sequences.
+
+
+\section{Empty Results}
+
+\begin{table*}[]
+    \centering
+    \begin{tabular}{c|c|c|c|c}
+    \toprule
+    & \multicolumn{2}{c|}{Seen} & \multicolumn{2}{c}{Unseen} \\
+    & Task & Goal-Cond & Task & Goal-Cond \\
+    \midrule
+    Seq2Seq + PM & & & & \\
+    MOCA & & & & \\
+    \bottomrule
+    \end{tabular}
+    \caption{Results Table}
+    \label{tab:my_label}
+\end{table*}
+
+\clearpage
+% Please use 
+\bibliographystyle{acl_natbib}
+\bibliography{references}
+
+%\appendix
+
+
+
+\end{document}
