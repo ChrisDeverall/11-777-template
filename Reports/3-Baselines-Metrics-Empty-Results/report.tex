@@ -39,17 +39,32 @@ Along with collecting the ALFRED dataset, \citet{ALFRED20} proposed a baseline m
 
 The ALFRED task requires long action sequences to be completed. \citet{ALFRED20} propose to use two auxiliary losses to monitor the progress of the agent towards the completion of the task. The first loss involves predicting the current process (a scalar between 0 and 1) using the decoder hidden state, the visual input, the attended language instructions, and the previous action. In addition to the global progress, the model is trained to predict the number of sub-goals completed so far. 
 
-\paragraph{Modular Object-Centric Approach (MOCA)} The Modular Object-Centric Approach (MOCA) \citep{singh2020moca} decomposes the interactive instruction following procedure into action, and policy generation tasks. Two modualized network, named action policy module (APM) and visual perception module (VPM), deal with the action planning and visual localization tasks respectively via attentive filtering visual and language information. The method also proposed to use a obstruction detection module to address the difficulties in being stuck around obstacle. The method successfully gains improvements from previous methods, and is of state-of-the-art position.
+\paragraph{Modular Object-Centric Approach (MOCA)}The Modular Object-Centric Approach (MOCA) \citep{singh2020moca} decomposes the interactive instruction following procedure into action, and policy generation tasks. Two modularized networks, named action policy module (APM) and visual perception module (VPM), deal with the action planning and visual localization tasks respectively via attentive filtering visual and language information. The method also proposed to use an obstruction detection module to address the difficulties in being stuck around the obstacles. The method successfully gains improvements from previous methods and is of state-of-the-art position.
 
-
+For training MOCA, the objective function is composed of the loss for APM and VPM. To guide the discovery of objects, the basic objective functions are two cross-entropy losses that enforce the model to discover objects and the corresponding action classes for each step. Two loss functions helping to achieve subgoals, and monitor the overall progress.
 
 \section{Metrics}
+
+\begin{table*}[]
+    \centering
+    \begin{tabular}{c|c|c|c|c}
+    \toprule
+    & \multicolumn{2}{c|}{Seen} & \multicolumn{2}{c}{Unseen} \\
+    & Task (PW) & Goal-Cond (PW) & Task (PW) & Goal-Cond (PW) \\
+    \midrule
+    Seq2Seq + PM & - & - & - & - \\ 
+    MOCA & - & - & - & - \\
+    \bottomrule
+    \end{tabular}
+    \caption{Results Table}
+    \label{tab:my_label}
+\end{table*}
 
 \paragraph{Task Success} To evaluate whether tasks have been successfully completed, the authors define two categories for success. For the task success metric, a score of 1 is given to a tasks trial when all of the goal conditions for that task have been met. If at least one goal condition is not met at the end of the sequence, a score of 0 is given. The main limitation of this metric is that the state-of-the-art models still perform poorly on the dataset, thus the percentage of tasks that meet every goal condition is very low.
 
 \paragraph{Goal-Condition Success} To overcome this limitation, goal-condition success measures the proportion of goal-conditions that have been met for the task. For example, if the completion of a task requires 5 goal-conditions and only 2 are met during testing, a score of 0.4 will be given. In general, tasks with longer sequences of instructions have a lower goal-condition success as the directive is more complex. As a result, it is important to use the same test splits across experiments to keep the task length constant.
 
-\paragraph{Path Weighted Metrics} A major limitation of both metrics is that one could attain a relatively high score by performing a long sequence of random acts. To overcome this, the authors perform path weighting, which gives a lower score to action sequences that are long compared to the expert demonstration. The weighting follows the below equation where $p_s$ is the path weighted score, $s$ is the non-path weighted score, $L^*$ is the length of the expert demonstration sequence and $\hat{L}$ is the length of the predicted sequence.
+\paragraph{Path Weighted Metrics} A major limitation of both metrics is that one could attain a relatively high score by performing a long sequence of random acts. To overcome this, the authors perform path weighting (PW), which gives a lower score to action sequences that are long compared to the expert demonstration. The weighting follows the below equation where $p_s$ is the path weighted score, $s$ is the non-path weighted score, $L^*$ is the length of the expert demonstration sequence and $\hat{L}$ is the length of the predicted sequence.
 
 $$p_s = s * \frac{L^{*}}{max(L^{*}, \hat{L} )}$$
 
@@ -57,21 +72,7 @@ $$p_s = s * \frac{L^{*}}{max(L^{*}, \hat{L} )}$$
 
 
 \section{Empty Results}
-
-\begin{table*}[]
-    \centering
-    \begin{tabular}{c|c|c|c|c}
-    \toprule
-    & \multicolumn{2}{c|}{Seen} & \multicolumn{2}{c}{Unseen} \\
-    & Task & Goal-Cond & Task & Goal-Cond \\
-    \midrule
-    Seq2Seq + PM & & & & \\
-    MOCA & & & & \\
-    \bottomrule
-    \end{tabular}
-    \caption{Results Table}
-    \label{tab:my_label}
-\end{table*}
+Please refer to Table \ref{tab:my_label}.
 
 \clearpage
 % Please use 
