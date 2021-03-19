@@ -1,0 +1,68 @@
+% File project.tex
+%% Style files for ACL 2021
+\documentclass[11pt,a4paper]{article}
+\usepackage[hyperref]{acl2021}
+\usepackage{times}
+\usepackage{booktabs}
+\usepackage{todonotes}
+\usepackage{latexsym}
+\renewcommand{\UrlFont}{\ttfamily\small}
+\usepackage{multirow}
+
+% This is not strictly necessary, and may be commented out,
+% but it will improve the layout of the manuscript,
+% and will typically save some space.
+\usepackage{microtype}
+
+\aclfinalcopy 
+
+\newcommand\BibTeX{B\textsc{ib}\TeX}
+
+\title{11-777 Spring 2021 Class Project\\
+ALFRED Background and Related Works}
+
+\author{
+  Christian Deverall\thanks{\hspace{4pt}Everyone Contributed Equally -- Alphabetical order} \hspace{2em} Jingyuan Li $^*$ \hspace{2em} Artidoro Pagnoni $^*$ \\
+  \texttt{\{cdeveral, jingyua4, apagnoni\}@andrew.cmu.edu}
+  }
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Related Work}
+In this part, we investigate existing work related to our project. We focus on related techniques and tasks. The supporting techniques discussed here are (1) program synthesis/induction, (2) language-image grounding. The related task discussed here is multimodal embodied interaction.
+
+\subsection{Program Synthesis}
+One challenge of dealing with instructions expressed in natural language is that natural language is noisy. The same instructions can be expressed through different paraphrases and depending on the context the same instructions might describe different actions. The task of parsing natural language instructions into a representation that has a deterministic execution is generally referred to as program synthesis or inductive programming \citep{summers1977methodology, muggleton1994inductive}. 
+
+\paragraph{Neural Code Generation} Previous work in program synthesis has explored the task of parsing natural language descriptions into source code written in a general-purpose programming language. \citet{yin2017syntactic} proposes a neural architecture which uses a grammar to explicitly capture the syntax of the target language in an Abstract Syntax Tree. \citet{dong2018coarse} use a different approach which is based on coarse-to-fine decoding and decomposes the parsing process into two stages: a rough sketch of the meaning of input utterance is first generated, and it is further refined by filling in the missing information at a second stage.
+
+\paragraph{Compositionality} Instructions and questions are generally compositional. Being able to capture the compositional linguistic structure of natural language questions can help create and combine specialized modules. 
+\citet{andreas2016neural} uses a natural language parser to dynamically lay out a network composed of reusable modules that are jointly trained. The CLEVR dataset \citep{johnson2017clevr} was proposed to test model's ability to perform compositional reasoning such as recognizing novel attribute combinations. In this sense it is similar to the ALFRED \citet{ALFRED20} instructions which test the performance of an agent in new action-object-scene combinations. \citet{santoro2017simple} propose Relation Networks to augment CNNs and perform relational reasoning on the CLEVR dataset.
+
+
+\paragraph{Semantic Parsing} The problem of code program synthesis is related to semantic parsing where a natural language sentence is mapped into a cpmplete, formal meaning representation \citep{mooney2007learning}. Several approaches have been proposed to leverage unlabeled data for the task of semantic parsing using question-answering and paraphrase models
+\citep{berant2013semantic, berant2014semantic} .
+
+\subsection{Image Understanding}
+
+\paragraph{Natural Language Object Retrieval}
+Traditional image recognition tasks such as object detection and semantic segmentation have performed extremely well when the textual input is highly defined. Often bounding boxes and segmentation masks are directly associated with a tag or label that defines the object. One limitation of this method is that it cannot not leverage the complex structural information inherent to natural language. In \cite{vis_grounding}, natural language object retrieval is performed on a relatively small dataset using weak supervision. More specifically, the authors represent sentences as a parse tree, which enables learning at several levels of the tree for the same image caption. This method outperformed baselines that did not consider linguistic structure on the MS COCO and Visual Genome datasets. For the same task, \citep{end_to_end_approach} uses deep reinforcement learning to iteratively reshape a bounding box to localize the object. 
+
+\paragraph{Visual QA} In contrast to the previous papers which only localize objects within images, the visual question answering task involves answering a more complex question about the image. In \citep{VQA}, which initially proposed the VQA task, the best performing model uses an LSTM to separately encode the text while a CNN encodes the image. \citep{stacked_attention} improves on this by introducing stacked attention networks, which iteratively queries the image. By repeatedly refining queries that combine both image and textual data, the latter attention layers can focus on the most relevant parts of the image. Recently, papers such as \cite{Wu_Liu_Wang_Li_2019} have provided innovations in the way that the image and textual encodings are fused together. Typical models take the product between both encodings, however this paper proposes the idea that the product of the difference between feature elements is a superior fusion.
+
+\subsection{Multimodal Embodied Interaction}
+The ability to understand and follow instructions is of great importance for robotic systems that aims to assist human in the real world. For its practicability, methods allowing the robots to follow instructions and complete specific goals have attracted great attention. One of the related tasks is called visual language navigation, which aims to generate sequences of actions from human instructions that guide the agent to complete tasks in specific scenes. The Room-to-Room dataset was proposed to simulate the real-world circumstance where instructions, scene images, and corresponding actions are provided, to accelerate the development of visual language navigation \cite{anderson2018_a}. To deal with the visual language navigation task, the multi-modal mapping between action sequence and instructions is built, which not only allows the agent to plan before taking actions but also enables data augmentation which improves the robustness of the model \cite{fried2018_a}. To allow the learning from environmental exploration and failure experiences, reinforcement learning techniques are also used in the navigation task \cite{ma2019_a, wang2018_a}. Besides performance improvements, many related works are also working on addressing specific assumptions made in the Room-to-Room dataset, including the discrete space assumption \cite{krantz2020_a}, and the known environment assumption \cite{tan2019_a}. While the Room-to-Room dataset has modeled VLN tasks comprehensively, one limitation that cannot be addressed is the lack of interaction which is one of the eventual goals of real-world robotic systems. To take a step forward, the ALFRED dataset is proposed \cite{shridhar_a}, with both navigation and interaction taken into consideration. Due to the requirement of interaction, the agent needs not only to decide the actions to take but also to figure out which object in the environment should be acted on, introducing extra complexity to the already hard problem. To address the issue, MOCA \cite{singh2020moca} with modules dealing with visual perception and action policy was proposed, to make the task feasible by dividing different components of the targets. The above describes works and tasks related to our project. In this project, we are intended to work on the exploration of and interaction with environment by the agent.
+
+\clearpage
+% Please use 
+\bibliographystyle{acl_natbib}
+\bibliography{references}
+
+%\appendix
+
+
+
+\end{document}
