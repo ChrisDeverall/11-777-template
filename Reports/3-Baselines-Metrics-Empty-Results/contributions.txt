@@ -1,0 +1,4 @@
+Artidoro focused on presenting the Alfred sequence to sequence baseline.
+Jingyuan focused on presenting the MOCA baseline.
+Christian presented the metrics.
+We made the table together at the end.
