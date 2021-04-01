@@ -1,0 +1,5 @@
+We discussed how the report should be structured together.
+Artidoro focused on the Program Synthesis section.
+Christian focused on the Image Understanding section.
+Jingyuan focused on Multimodal Embodied Interaction section.
+We all worked on harmonizing the report once the sections were written.
