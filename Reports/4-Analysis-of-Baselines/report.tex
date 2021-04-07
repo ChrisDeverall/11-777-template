@@ -68,15 +68,16 @@ Through our analysis we identify areas that could lead to performance improvemen
                                               &                  & Task (PW)   & Goal-Cond (PW) & Task (PW)  & Goal-Cond (PW) \\ \cline{2-6} 
 \multicolumn{1}{l|}{}                         & Seq2Seq + PM     & 3.7 (2.1)   & 10.0 (10.0)    & 0.0 (0.0)  & 6.9 (5.1)      \\ \cline{2-6} 
 \multicolumn{1}{l|}{}                         & MOCA             & 19.2 (13.6) & 28.5 (22.3)    & 3.8 (2.0)  & 13.4 (8.3)     \\ \cline{2-6} 
-\multicolumn{1}{l|}{}                         & MOCA (our trial) & 20.8 (14.4) & 29.7 (22.6)    & 2.8 (1.4)  & 12.8 (7.6)     \\ \hline
+\multicolumn{1}{l|}{}                         & MOCA (\textbf{our trial}) & 20.8 (14.4) & 29.7 (22.6)    & 2.8 (1.4)  & 12.8 (7.6)     \\ \hline  \hline
+\multicolumn{1}{|l|}{\multirow{4}{*}{ALFRED}} & No Language      & 0.0 (0.0)   & 5.9 (3.4)      & 0.0 (0.0)  & 6.5 (4.7)      \\ \cline{2-6} 
+\multicolumn{1}{|l|}{}                        & No Vision        & 0.0 (0.0)   & 5.7 (4.7)      & 0.0 (0.0)  & 6.8 (6.0)      \\ \cline{2-6} 
+\multicolumn{1}{|l|}{}                        & Goal-Only        & 0.1 (0.0)   & 6.5 (4.3)      & 0.0 (0.0)  & 6.8 (5.0)      \\ \cline{2-6} 
+\multicolumn{1}{|l|}{}                        & Instruction-Only & 2.3 (1.1)   & 9.4 (6.1)      & 0.0 (0.0)  & 7.0 (4.9)      \\ \hline\hline
 \multicolumn{1}{|c|}{\multirow{4}{*}{MOCA}}   & No Language      & 2.7 (1.3)   & 9.6 (6.3)      & 0.0 (0.0)  & 6.7 (3.0)      \\ \cline{2-6} 
 \multicolumn{1}{|c|}{}                        & No Vision        & 0.2 (0.1)   & 5.9 (4.7)      & 0.0 (0.0)  & 7.2 (6.1)      \\ \cline{2-6} 
 \multicolumn{1}{|c|}{}                        & Goal-Only        & 5.4 (2.7)   & 14.3 (10.0)    & 0.2 (0.1)  & 8.5 (4.8)      \\ \cline{2-6} 
 \multicolumn{1}{|c|}{}                        & Instruction-Only & 2.3 (1.1)   & 12.8 (9.6)     & 0.5 (0.3)  & 7.5 (5.3)      \\ \hline
-\multicolumn{1}{|l|}{\multirow{4}{*}{ALFRED}} & No Language      & 0.0 (0.0)   & 5.9 (3.4)      & 0.0 (0.0)  & 6.5 (4.7)      \\ \cline{2-6} 
-\multicolumn{1}{|l|}{}                        & No Vision        & 0.0 (0.0)   & 5.7 (4.7)      & 0.0 (0.0)  & 6.8 (6.0)      \\ \cline{2-6} 
-\multicolumn{1}{|l|}{}                        & Goal-Only        & 0.1 (0.0)   & 6.5 (4.3)      & 0.0 (0.0)  & 6.8 (5.0)      \\ \cline{2-6} 
-\multicolumn{1}{|l|}{}                        & Instruction-Only & 2.3 (1.1)   & 9.4 (6.1)      & 0.0 (0.0)  & 7.0 (4.9)      \\ \hline
+
 \end{tabular}
 \caption{Results Table (validation dataset). The unimodal results are taken from the original papers. We tested the MOCA paper to verify the results were in line with the published ones and to perform additional evaluations.}
 \label{tab:results}
@@ -179,32 +180,34 @@ ToggleOff    & 0.00        & 0.01        & 0.00         & 0.02         \\ \hline
 
  For the MOCA model, we analyze the effect that the previous action prediction has on the distribution of the next prediction in figure \ref{fig:MOCA_codep}. To allow for comparison we also display the action-action dependencies for the human-labelled sequences in figure  \ref{fig:GROUND_codep} and for the ALFRED baseline model in \ref{fig:ALFRED_codep} . In every heatmap, the previous action is shown on the left axis and the predicted action is shown on the vertical axis. Interestingly, the heatmaps show the fact that both the MOCA and ALFRED baseline models struggle to correctly predict the ``CloseObject'' action after the ``PickupObject'' action. 
  
-  \begin{figure}
+  \begin{figure*}
     \centering
     \includegraphics[width=\linewidth]{Reports/4-Analysis-of-Baselines/ALFRED_codep.png}
     \caption{Action dependency heatmap for the ALFRED baseline}
     \label{fig:ALFRED_codep}
-\end{figure}
+\end{figure*}
  
- \begin{figure}
+ \begin{figure*}
     \centering
     \includegraphics[width=\linewidth]{Reports/4-Analysis-of-Baselines/MOCA_codep.png}
     \caption{Action dependency heatmap for the MOCA model}
     \label{fig:MOCA_codep}
-\end{figure}
+\end{figure*}
 
- \begin{figure}
+ \begin{figure*}
     \centering
     \includegraphics[width=\linewidth]{Reports/4-Analysis-of-Baselines/GROUND_codep.png}
     \caption{Action dependency heatmap for human-labelled sequences}
     \label{fig:GROUND_codep}
-\end{figure}
+\end{figure*}
 
 
 
 \section{Segmentation}
 
-Interaction tasks (non-navigational) use an output segmentation mask to specify the object to interact with. In this section, we analyze the performance of these mask predictions. Intersection over union (IoU) is a metric for the overlap between two regions. We calculate the IoU between the output masks predicted by the MOCA model and the ground truth masks. We also explore how the accuracy of the segmentation mask changes at various threshold of IoU. The results are displayed in table \ref{tab:seg_acc}. In general, the IoU is significantly larger for seen task environments than for unseen task environments.
+Interaction tasks (non-navigational) use an output segmentation mask to specify the object to interact with. In this section, we analyze the performance of these mask predictions. Intersection over union (IoU) is a metric for the overlap between two regions. We calculate the IoU between the output masks predicted by the MOCA model and the ground truth masks. We also explore how the proportion of output segmentation masks with IoUs  changes at various threshold of IoU. The results are displayed in table \ref{tab:seg_acc}. In general, the IoU is significantly larger for seen task environments than for unseen task environments. This highlights the problem of generalization of the vision component of the model.
+
+In addition to the IoU we observe in our error analysis table for the MOCA model (Table \ref{tab:error_analysis}) that a large portion of invalid actions (about 40\%) are due to the object being visible but incorrectly located in the image by the interaction mask. This indicates that improving the component of the model that generates the interaction masks could lead to significant improvements in the overall performance of the model.
 
 
 
@@ -264,15 +267,22 @@ Average length of sequences of errors        & 2.954       & 1.19        & 3.57 
 
 \section{Unimodal Analysis}
 
-Both the MOCA and ALFRED baselines are tested in 4 identical ablation studies which restrict the input to the model. The ``No Language'' setting removes all textual input to the model so that the model has to guess the task based on the visual input. ``No Visual'' refers to 
+Both the MOCA and ALFRED baselines are tested in 4 identical ablation studies which restrict the input to the model. We report the results of the ablation studies performed by authors in Table \ref{tab:results}. ``No Visual'' refers to not having access to any visual input.  The ``No Language'' setting removes all textual input to the model so that the model has to guess the task based on the visual input. ``Goal only'' refers to only having access to the visual input and the overall task objective without the step-by-step  instructions. ``Instruction Only'' refers to having access to the visual input and the low-level step-by-step instruction without the overall task objective. We observe that for the ALFRED Seq2Seq baseline in the seen scenes there is benefit in having access to different modalities. However, in the unseen scenes, the performance on the single modalities is equal (in one case even greater) than the performance using all modalities. This indicates that
+
+In the MOCA baseline we observe that especially in the unseen scenes all modalities are important to obtain high performance. This indicates that there is a certain degree of cross-modality reasoning that the model is able to perform.
+One of the key insights from the ablation studies is that the MOCA paper makes far superior predictions when textual input is limited (No language and goal-only). An explanation is that the MOCA model is able to memorize the relationship between objects and the actions that are frequently performed upon them.
 
 
-\section{Conclusion}
+
+
+\section{Discussion and Conclusion}
 In this report we provide the results of the analysis of two baseline models for the ALFRED task, with a particular emphasis on MOCA. We believe that the following conclusion from our analysis could inform future work to improve the MOCA model:
 \begin{enumerate}
     \item Unseen scene generalization is an issue. The performance of the models drops significantly between seen and unseen scenes highlighting the problem of generalizing to new environments.
     \item Trajectories reaching the invalid action limit of 10 correspond to a large portion of errors (30\% for seen, 40\% for unseen tasks). 
     \item The two major reasons for invalid actions are the agent being blocked, and the object being incorrectly located in the image even though it is visible.
+    \item The agent fails to have a good model of the validity of movements, especially in unseen scenes. This might be due to a mismatch in the training and testing environments. We hypothesize that during training the agent might have seen few cases of being stuck or having an obstruction.
+    \item The agent could improve its ability to recognize objects in an image. 
 \end{enumerate}
 
 
