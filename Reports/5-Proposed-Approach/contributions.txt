@@ -1,0 +1,5 @@
+We all discussed the approach which builds on our baseline analysis from the previous class milestone.
+
+Artidoro focused on writing the introduction, motivation and conclusion.(1,2,4)
+Jingyuan wrote the action feasibility approaches (with some help from Artidoro) (3.1).
+Christian wrote the additional ideas to reduce infeasible actions (3.2, 3.3)
